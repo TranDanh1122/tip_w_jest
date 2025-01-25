@@ -1,3 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @tailwind base;
 @tailwind components;
-@tailwind utilities
+@tailwind utilities;
+
+:root {
+    --strong-cyan: hsl(172, 67%, 45%);
+    --very-dark-cyan: hsl(183, 100%, 15%);
+    --dark-grayish-cyan: hsl(186, 14%, 43%);
+    --grayish-cyan: hsl(184, 14%, 56%);
+    --light-grayish-cyan: hsl(185, 41%, 84%);
+    --very-light-grayish-cyan: hsl(189, 41%, 97%);
+    --white: hsl(0, 0%, 100%);
+}
+
+html {
+    font-family: "Space Mono", sans-serif;
+}
+
+#root {
+    height: auto;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--light-grayish-cyan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

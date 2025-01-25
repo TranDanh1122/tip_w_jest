@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import TipForm from './features/TipForm'
 
 
 function App() {
 
   return (
     <>
-
+      <TipForm />
     </>
   )
 }
