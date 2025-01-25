@@ -3,7 +3,6 @@ import logo from "../assets/logo.svg"
 import dollar from "../assets/icon-dollar.svg"
 import person from "../assets/icon-person.svg"
 import Input from "../components/Input";
-import { flushSync } from "react-dom";
 interface DynamicKey {
     [key: string]: number | string
 }
@@ -54,27 +53,32 @@ const useForm = () => {
             }
         }
         if (!valid) return data
-        const tip = parseFloat((data.tip ?? data.customTip ?? 0))
+        const tip = parseFloat(data.tip || data.customTip || "0")
         const totalTip = parseFloat(data.bill) * tip / 100
         const eachTip = totalTip / parseInt(data.people)
         const eachPay = parseFloat(data.bill) + totalTip / parseInt(data.people)
         return { ...data, eachTip: eachTip, eachPay: eachPay }
     }
     const handleChange = (value: string, name: string) => {
-        if (name == "customTip") setData((data) => ({ ...data, tip: "" }))
-        if (name == "tip") setData((data) => ({ ...data, customTip: "" }))
+        if (name === "customTip") {
+            setData((data) => ({ ...data, tip: "", customTip: value }));
+        } else if (name === "tip") {
+            setData((data) => ({ ...data, customTip: "", tip: value }));
+        } else {
+            setData((data) => ({ ...data, [name]: value }));
+        }
         if (!validate(name, value)) return
         setErrors((errors) => ({ ...errors, [name as keyof Form]: "" }))
-        flushSync(() => {
-            setData((data) => ({ ...data, [name as keyof Form]: value }))
-        })
         if (timer.current) clearTimeout(timer.current)
         timer.current = setTimeout(() => { setData((form) => caculate(form)) }, 300)
     }
-    return { data, errors, handleChange }
+    const reset = () => {
+        setData(initData)
+    }
+    return { data, errors, handleChange, reset }
 }
 export default function TipForm(): React.JSX.Element {
-    const { data, errors, handleChange } = useForm()
+    const { data, errors, handleChange, reset } = useForm()
     return <>
         <div className="flex-1">
             <img src={logo} alt="logo" className="w-[5.5rem] h-14 object-cover mx-auto" />
@@ -122,7 +126,7 @@ export default function TipForm(): React.JSX.Element {
                         </div>
                         <span className="font-bold text-[3rem] text-[var(--strong-cyan)]">${data.eachPay}</span>
                     </div>
-                    <button className="bg-[var(--strong-cyan)] rounded-md font-bold text-[1.25rem] w-full py-2 
+                    <button onClick={reset} className="bg-[var(--strong-cyan)] rounded-md font-bold text-[1.25rem] w-full py-2 
                     text-[var(--very-dark-cyan)] hover:bg-[var(--strong-cyan)]/20 uppercase">Reset</button>
                 </div>
             </div>
