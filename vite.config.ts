@@ -5,8 +5,7 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   plugins: [react()],
   test: {
-    globals: true, // Kích hoạt globals như Jest
-    environment: 'jsdom', // Môi trường để test các thành phần DOM
-    setupFiles: './vitest.setup.ts', // File khởi tạo test
+    globals: true, 
+    environment: 'jsdom', 
   },
 })

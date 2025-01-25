@@ -14,7 +14,7 @@ interface Form extends DynamicKey {
     eachTip: number,
     eachPay: number
 }
-const useForm = () => {
+export const useForm = () => {
     const initData = {
         bill: "",
         tip: "5",
