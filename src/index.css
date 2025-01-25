@@ -908,7 +908,39 @@ html {
 }
 
 @media (min-width: 0) and (max-width: 767px){
+  .mb\:w-full{
+    width: 100%;
+  }
+
+  .mb\:w-4\/5{
+    width: 80%;
+  }
+
+  .mb\:w-\[calc\(50\%-16px\)\]{
+    width: calc(50% - 16px);
+  }
+
+  .mb\:w-\[calc\(50\%-12px\)\]{
+    width: calc(50% - 12px);
+  }
+
+  .mb\:w-5\/6{
+    width: 83.333333%;
+  }
+
+  .mb\:w-\[95\%\]{
+    width: 95%;
+  }
+
   .mb\:max-w-none{
     max-width: none;
+  }
+
+  .mb\:flex-wrap{
+    flex-wrap: wrap;
+  }
+
+  .mb\:p-4{
+    padding: 1rem;
   }
 }

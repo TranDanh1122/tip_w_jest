@@ -13,7 +13,8 @@ interface InputProps {
     onClick?: (value: string, name: string) => void
 }
 const Input = React.memo(({ label, value, name, placeHolder, error, icon, onChange, type, onClick, touched }: InputProps): React.JSX.Element => {
-
+    console.log("input render");
+    
     return <fieldset className="flex flex-col gap-2">
         <div className="flex justify-between items-center font-bold text-base">
             {<label htmlFor={name} className="text-[var(--dark-grayish-cyan)]">{label}</label>}

@@ -59,7 +59,7 @@ const useForm = () => {
         const eachPay = parseFloat(data.bill) + totalTip / parseInt(data.people)
         return { ...data, eachTip: eachTip, eachPay: eachPay }
     }
-    const handleChange = (value: string, name: string) => {
+    const handleChange = React.useCallback((value: string, name: string) => {
         if (name === "customTip") {
             setData((data) => ({ ...data, tip: "", customTip: value }));
         } else if (name === "tip") {
@@ -71,7 +71,7 @@ const useForm = () => {
         setErrors((errors) => ({ ...errors, [name as keyof Form]: "" }))
         if (timer.current) clearTimeout(timer.current)
         timer.current = setTimeout(() => { setData((form) => caculate(form)) }, 300)
-    }
+    }, [])
     const reset = () => {
         setData(initData)
     }
@@ -82,28 +82,28 @@ export default function TipForm(): React.JSX.Element {
     return <>
         <div className="flex-1">
             <img src={logo} alt="logo" className="w-[5.5rem] h-14 object-cover mx-auto" />
-            <div className="container mt-24 rounded-3xl mb:max-w-none bg-white p-8 flex gap-12 justify-start items-center w-3/5 mx-auto">
-                <div className="w-1/2 flex flex-col gap-10">
+            <div className="container mt-24 rounded-3xl mb:max-w-none bg-white p-8 mb:p-4 flex mb:flex-wrap gap-12 justify-start items-center w-3/5 mb:w-[95%] mx-auto">
+                <div className="w-1/2 mb:w-full flex flex-col gap-10">
                     <Input onChange={handleChange} label="Bill" icon={dollar} name="bill" placeHolder="0.00" type="1" value={data.bill} error={errors.bill} />
                     <fieldset>
                         <legend className="font-bold text-base text-[var(--dark-grayish-cyan)]">Select tip %</legend>
                         <div className="flex flex-wrap items-center justify-start gap-3">
-                            <div className="w-[calc(100%/3-8px)]">
+                            <div className="w-[calc(100%/3-8px)] mb:w-[calc(50%-12px)]">
                                 <Input onClick={handleChange} name="tip" type="2" value="5%" touched={"5" == data.tip} />
                             </div>
-                            <div className="w-[calc(100%/3-8px)]">
+                            <div className="w-[calc(100%/3-8px)] mb:w-[calc(50%-12px)]">
                                 <Input onClick={handleChange} name="tip" type="2" value="10%" touched={"10" == data.tip} />
                             </div>
-                            <div className="w-[calc(100%/3-8px)]">
+                            <div className="w-[calc(100%/3-8px)] mb:w-[calc(50%-12px)]">
                                 <Input onClick={handleChange} name="tip" type="2" value="15%" touched={"15" == data.tip} />
                             </div>
-                            <div className="w-[calc(100%/3-8px)]">
+                            <div className="w-[calc(100%/3-8px)] mb:w-[calc(50%-12px)]">
                                 <Input onClick={handleChange} name="tip" type="2" value="25%" touched={"25" == data.tip} />
                             </div>
-                            <div className="w-[calc(100%/3-8px)]">
+                            <div className="w-[calc(100%/3-8px)] mb:w-[calc(50%-12px)]">
                                 <Input onClick={handleChange} name="tip" type="2" value="50%" touched={"50" == data.tip} />
                             </div>
-                            <div className="w-[calc(100%/3-8px)]">
+                            <div className="w-[calc(100%/3-8px)] mb:w-[calc(50%-12px)]">
                                 <Input onChange={handleChange} onClick={handleChange} name="customTip" placeHolder="Custom" type="1" value={data.customTip} />
                             </div>
                         </div>
@@ -111,7 +111,7 @@ export default function TipForm(): React.JSX.Element {
                     <Input onChange={handleChange} name="people" placeHolder="1" icon={person} error={errors.people} type="1" label="Number of People" value={data.people} />
 
                 </div>
-                <div className="w-1/2 bg-[var(--very-dark-cyan)] rounded-2xl p-10 flex flex-col gap-10">
+                <div className="w-1/2 mb:w-full bg-[var(--very-dark-cyan)] rounded-2xl p-10 flex flex-col gap-10">
                     <div className="flex justify-between items-center">
                         <div>
                             <h2 className="font-bold text-base text-white">Tip Amount</h2>
