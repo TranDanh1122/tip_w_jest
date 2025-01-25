@@ -21,7 +21,7 @@ const Input = React.memo(({ label, value, name, placeHolder, error, icon, onChan
             {error && <span className="text-red-400">{error}</span>}
         </div>
         <div className="w-full relative">
-            <input onClick={(e) => onClick?.((e.target as HTMLInputElement).value.replace("%" , ""), name)}
+            <input id={name} onClick={(e) => onClick?.((e.target as HTMLInputElement).value.replace("%" , ""), name)}
                 readOnly={type == "2" ? true : false} onChange={e => onChange?.(e.target.value, name)}
                 type="text" name={name} placeholder={placeHolder}
                 value={value}
@@ -33,7 +33,7 @@ const Input = React.memo(({ label, value, name, placeHolder, error, icon, onChan
                     "bg-[var(--very-dark-cyan)] text-white": !touched && type == "2",
                     "text-[var(--very-dark-cyan)] bg-[var(--strong-cyan)]": touched && type == "2"
                 })} />
-            <i className="block w-[10px] h-4 absolute top-[50%] translate-y-[-50%] left-[calc(2rem-10px)] bg-[var(--grayish-cyan)]" style={{
+            <i role="icon" className="block w-[10px] h-4 absolute top-[50%] translate-y-[-50%] left-[calc(2rem-10px)] bg-[var(--grayish-cyan)]" style={{
                 mask: `url("${icon}") center/cover no-repeat`,
                 WebkitMask: `url("${icon}") center/cover no-repeat`,
             }}></i>
