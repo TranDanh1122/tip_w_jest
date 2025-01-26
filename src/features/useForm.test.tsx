@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act, waitFor } from '@testing-library/react';
 import { useForm } from "./TipForm"
 import { describe, it, expect } from 'vitest';
 
@@ -46,7 +46,7 @@ describe("userForm hook", () => {
         it("people change", () => {
             const { result } = renderHook(() => useForm())
             act(() => {
-                result.current.handleChange("100", "customTip")
+                result.current.handleChange("100", "people")
             })
             expect(result.current.data.people).toEqual("100")
         })
@@ -77,7 +77,7 @@ describe("userForm hook", () => {
         })
     })
     describe("Caculate", () => {
-        it('caculate with tip', () => {
+        it('caculate with tip', async () => {
             const { result } = renderHook(() => useForm())
 
             act(() => {
@@ -85,11 +85,12 @@ describe("userForm hook", () => {
                 result.current.handleChange('2', 'people')
                 result.current.handleChange('10', 'tip')
             })
-
-            expect(result.current.data.eachTip).toEqual(5)
-            expect(result.current.data.eachPay).toEqual(55)
+            await waitFor(() => {
+                expect(result.current.data.eachTip).toEqual(5)
+                expect(result.current.data.eachPay).toEqual(55)
+            })
         });
-        it('caculate with custom tip', () => {
+        it('caculate with custom tip', async () => {
             const { result } = renderHook(() => useForm())
 
             act(() => {
@@ -97,9 +98,10 @@ describe("userForm hook", () => {
                 result.current.handleChange('2', 'people')
                 result.current.handleChange('10', 'customTip')
             });
-
-            expect(result.current.data.eachTip).toEqual(5)
-            expect(result.current.data.eachPay).toEqual(55)
+            await waitFor(() => {
+                expect(result.current.data.eachTip).toEqual(5)
+                expect(result.current.data.eachPay).toEqual(55)
+            })
         });
     })
     describe("reset", () => {

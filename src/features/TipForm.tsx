@@ -25,7 +25,7 @@ export const useForm = () => {
     }
     const [data, setData] = React.useState<Form>(initData)
     const [errors, setErrors] = React.useState<Pick<Form, "bill" | "people" | "tip" | "customTip">>({ bill: "", tip: "", people: "", customTip: "" })
-    const timer = React.useRef<number | null>(null)
+    const timer = React.useRef<NodeJS.Timeout | number | null>(null)
     const validate = React.useCallback((name: string, value: string) => {
         if (!value) {
             setData((data) => ({ ...data, [name as keyof Form]: 0 }))
@@ -56,7 +56,7 @@ export const useForm = () => {
         const tip = parseFloat(data.tip || data.customTip || "0")
         const totalTip = parseFloat(data.bill) * tip / 100
         const eachTip = totalTip / parseInt(data.people)
-        const eachPay = parseFloat(data.bill) + totalTip / parseInt(data.people)
+        const eachPay = (parseFloat(data.bill) + totalTip) / parseInt(data.people)
         return { ...data, eachTip: eachTip, eachPay: eachPay }
     }
     const handleChange = React.useCallback((value: string, name: string) => {
@@ -117,14 +117,14 @@ export default function TipForm(): React.JSX.Element {
                             <h2 className="font-bold text-base text-white">Tip Amount</h2>
                             <span className="font-bold text-[0.75rem] text-[var(--grayish-cyan)] italic">/ person</span>
                         </div>
-                        <span className="font-bold text-[3rem] text-[var(--strong-cyan)]">${data.eachTip}</span>
+                        <span className="font-bold text-[3rem] text-[var(--strong-cyan)]">${data.eachTip.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between items-center">
                         <div>
                             <h2 className="font-bold text-base text-white">Total</h2>
                             <span className="font-bold text-[0.75rem] text-[var(--grayish-cyan)] italic">/ person</span>
                         </div>
-                        <span className="font-bold text-[3rem] text-[var(--strong-cyan)]">${data.eachPay}</span>
+                        <span className="font-bold text-[3rem] text-[var(--strong-cyan)]">${data.eachPay.toFixed(2)}</span>
                     </div>
                     <button onClick={reset} className="bg-[var(--strong-cyan)] rounded-md font-bold text-[1.25rem] w-full py-2 
                     text-[var(--very-dark-cyan)] hover:bg-[var(--strong-cyan)]/20 uppercase">Reset</button>
