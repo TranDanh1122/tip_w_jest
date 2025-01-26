@@ -21,7 +21,7 @@ const Input = React.memo(({ label, value, name, placeHolder, error, icon, onChan
             {error && <span className="text-red-400">{error}</span>}
         </div>
         <div className="w-full relative">
-            <input id={name} onClick={(e) => onClick?.((e.target as HTMLInputElement).value.replace("%" , ""), name)}
+            <input role="textbox" id={name} onClick={(e) => onClick?.((e.target as HTMLInputElement).value.replace("%" , ""), name)}
                 readOnly={type == "2" ? true : false} onChange={e => onChange?.(e.target.value, name)}
                 type="text" name={name} placeholder={placeHolder}
                 value={value}

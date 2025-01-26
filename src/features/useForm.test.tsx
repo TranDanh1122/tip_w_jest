@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
 import { useForm } from "./TipForm"
-import {  describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 describe("userForm hook", () => {
     const initData = {
@@ -12,8 +12,10 @@ describe("userForm hook", () => {
         eachPay: 0
     }
     describe("initData", () => {
-        const { result } = renderHook(() => useForm())
-        expect(result.current.data).toEqual(initData)
+        it("initial", () => {
+            const { result } = renderHook(() => useForm())
+            expect(result.current.data).toEqual(initData)
+        })
     })
 
     describe("handleChange", () => {
@@ -101,10 +103,12 @@ describe("userForm hook", () => {
         });
     })
     describe("reset", () => {
-        const { result } = renderHook(() => useForm())
-        act(() => {
-            result.current.reset()
+        it("handleReset", () => {
+            const { result } = renderHook(() => useForm())
+            act(() => {
+                result.current.reset()
+            })
+            expect(result.current.data).toEqual(initData)
         })
-        expect(result.current.data).toEqual(initData)
     })
 })

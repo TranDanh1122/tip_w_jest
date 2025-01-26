@@ -2,7 +2,6 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import Input from "../Input";
 import { vi, describe, it, expect } from 'vitest';
 import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
 
 describe("Input Component", () => {
     const mockProps = (overrides = {}) => ({
@@ -68,15 +67,16 @@ describe("Input Component", () => {
     describe("eventing", () => {
         it("onChange", () => {
             const onChange = vi.fn()
-            const props = mockProps({ onChange: onChange, type: "1", value: "10" })
+            const props = mockProps({ onChange: onChange, type: "1", value: "" })
             render(<Input {...props} />)
-            const input = screen.getByDisplayValue("10")
-            userEvent.type(input, "10")
+            const input = screen.getByRole("textbox")
+            fireEvent.change(input, { target: { value: '10' } })
             expect(onChange).toHaveBeenCalledWith("10", "testInput")
+
         })
         it("onClick", () => {
             const onClick = vi.fn()
-            const props = mockProps({ type: 2, value: "10", onClick: onClick })
+            const props = mockProps({ type: "2", value: "10", onClick: onClick })
             render(<Input {...props} />)
             const input = screen.getByDisplayValue("10")
             fireEvent.click(input)
